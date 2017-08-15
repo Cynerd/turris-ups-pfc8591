@@ -14,7 +14,7 @@ class SamplePluginConfigHandler(BaseConfigHandler):
 
 class SamplePluginPage(ConfigPageMixin, SamplePluginConfigHandler):
     menu_order = 70
-    template = "i2c_collect/i2c_collect.tpl"
+    template = "ups_pfc8591/ups_pfc8591.tpl"
     userfriendly_title = gettext("I2C collect")
 
     def _prepare_render_args(self, args):
@@ -24,7 +24,7 @@ class SamplePluginPage(ConfigPageMixin, SamplePluginConfigHandler):
         args['PLUGIN_DYNAMIC_SCRIPTS'] = SamplePluginPlugin.PLUGIN_DYNAMIC_SCRIPTS
         args['data'] = {}
         for fld in ["voltage", "light", "temperature", "trimmer"]:
-            args['data'][fld] = ubus_call("i2c-collect", "read_data", {"range": 172800, "field": fld})[0]['data']
+            args['data'][fld] = ubus_call("ups-pfc8591", "read_data", {"range": 172800, "field": fld})[0]['data']
             for _, dt in enumerate(args['data'][fld]):
                 dt[0] = time.strftime('%H:%M:%S', time.gmtime(int(dt[0])))
                 if fld == "voltage":
@@ -42,7 +42,7 @@ class SamplePluginPage(ConfigPageMixin, SamplePluginConfigHandler):
 
 
 class SamplePluginPlugin(ForisPlugin):
-    PLUGIN_NAME = "i2c_collect"
+    PLUGIN_NAME = "ups_pfc8591"
     DIRNAME = os.path.dirname(os.path.abspath(__file__))
 
     PLUGIN_STYLES = [
@@ -51,9 +51,9 @@ class SamplePluginPlugin(ForisPlugin):
         "js/Chart.bundle.min.js"
     ]
     PLUGIN_DYNAMIC_SCRIPTS = [
-        "i2c_collect.js"
+        "ups_pfc8591.js"
     ]
 
     def __init__(self, app):
         super(SamplePluginPlugin, self).__init__(app)
-        add_config_page("i2c_collect", SamplePluginPage, top_level=True)
+        add_config_page("ups_pfc8591", SamplePluginPage, top_level=True)

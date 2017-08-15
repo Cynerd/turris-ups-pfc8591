@@ -66,7 +66,7 @@ $(document).ready(function() {
 });
 
 /*
-Foris.WS["i2c-collect"] = function (data) {
+Foris.WS["ups-pfc8591"] = function (data) {
 	for (d in data) {
 		Foris.lineChartData[d].datasets[0].data.push(data[d][0]);
 		Foris.lineChartData[d].datasets[0].data.shift();

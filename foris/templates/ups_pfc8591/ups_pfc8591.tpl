@@ -1,7 +1,7 @@
 
 %rebase("config/base.tpl", **locals())
 
-<div id="page-i2c-collect" class="config-page">
+<div id="page-ups-pfc8591" class="config-page">
 %include("_messages.tpl")
   <div id="canvas-container">
 %for fld in ["voltage", "light", "temperature", "trimmer"]:

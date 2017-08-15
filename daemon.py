@@ -22,7 +22,7 @@ battery_not_high = 250
 i2c = I2C("/dev/i2c-7")
 
 # Initialize sqlite
-db_connection = sqlite3.connect('/tmp/i2c-collect.db')
+db_connection = sqlite3.connect('/tmp/ups-pfc8591.db')
 db = db_connection.cursor()
 
 # Initialize ubus
@@ -36,7 +36,7 @@ def read_chunk(handler, data):
     handler.reply({"data": result})
 
 ubus.add(
-    "i2c-collect", {
+    "ups-pfc8591", {
         "read_data": {
             "method": read_chunk,
             "signature": {"range": ubus.BLOBMSG_TYPE_INT32, "field": ubus.BLOBMSG_TYPE_STRING},
@@ -73,7 +73,7 @@ def db_data(data):
 def ubus_data(data):
     date = str(int(time.time()))
     for k in iter(data.keys()):
-        ubus.send("i2c-collect", {k: (date, data[k])})
+        ubus.send("ups-pfc8591", {k: (date, data[k])})
 
 notified_power_supply = False
 notified_low_battery = False
